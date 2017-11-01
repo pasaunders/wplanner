@@ -1,0 +1,8 @@
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\bin\Debug\netcoreapp1.1\weddingPlanner.deps.json
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\bin\Debug\netcoreapp1.1\weddingPlanner.runtimeconfig.json
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\bin\Debug\netcoreapp1.1\weddingPlanner.runtimeconfig.dev.json
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\obj\Debug\netcoreapp1.1\weddingPlanner.AssemblyInfo.cs
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\bin\Debug\netcoreapp1.1\weddingPlanner.dll
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\bin\Debug\netcoreapp1.1\weddingPlanner.pdb
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\obj\Debug\netcoreapp1.1\weddingPlanner.dll
+C:\Users\kaorti\code\microsoft_class\c_sharp\weddingPlanner\obj\Debug\netcoreapp1.1\weddingPlanner.pdb
