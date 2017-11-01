@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using weddingPlanner.Models;
 
 namespace weddingPlanner.Controllers
@@ -18,8 +20,7 @@ namespace weddingPlanner.Controllers
         [Route("")]
         public IActionResult Index()
         {
-            logRegCompositeModel compositeModel = new logRegCompositeModel();
-            return View(compositeModel);
+            return View();
         }
         [HttpPost]
         [Route("register")]
@@ -29,7 +30,14 @@ namespace weddingPlanner.Controllers
             TryValidateModel(registrationData);
             if (ModelState.IsValid)
             {
-                newUser = new Users();
+                Users newUser = new Users();
+                PasswordHasher<Users> hasher = new PasswordHasher<Users>();
+                newUser.firstName = registrationData.firstName;
+                newUser.lastName = registrationData.lastName;
+                newUser.email = registrationData.email;
+                newUser.password = hasher.HashPassword(newUser, registrationData.password);
+                _context.users.Add(newUser);
+                _context.SaveChanges();
                 System.Console.WriteLine("registration validates");
             } else {
                 System.Console.WriteLine("no validation here");
@@ -44,10 +52,24 @@ namespace weddingPlanner.Controllers
             TryValidateModel(loginData);
             if (ModelState.IsValid)
             {
-                System.Console.WriteLine("Login validates");
-            } else {
-                System.Console.WriteLine("login broke");
+                Users user = _context.users.FirstOrDefault(entry => entry.email == loginData.email);
+                if (user != null)
+                {
+                    PasswordHasher<Users> hasher = new PasswordHasher<Users>();
+                    if (hasher.VerifyHashedPassword(user, user.password, loginData.password) != 0)
+                    {
+                        HttpContext.Session.SetInt32("currentUserId", user.usersId);
+                        return RedirectToAction("list", "Wedding");
+                    }
+                }
             }
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        [Route("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
     }

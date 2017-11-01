@@ -10,11 +10,11 @@ namespace weddingPlanner.Models
         public string email {get; set;}
         public string password {get; set;}
 
-        // public List<Weddings> weddings {get; set;}
+        public List<Weddings> weddings {get; set;}
 
-        // public Users()
-        // {
-        //     weddings = new List<Weddings>();
-        // }
+        public Users()
+        {
+            weddings = new List<Weddings>();
+        }
     }
 }

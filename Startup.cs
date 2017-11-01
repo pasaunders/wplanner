@@ -30,6 +30,7 @@ namespace weddingPlanner
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddSession();
             services.Configure<MySqlOptions>(Configuration.GetSection("DBInfo"));
             services.AddDbContext<weddingPlannerContext>(options => options.UseMySQL(Configuration["DBInfo:ConnectionString"]));
             services.AddMvc();
@@ -52,6 +53,7 @@ namespace weddingPlanner
             }
 
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseMvc();
         }
