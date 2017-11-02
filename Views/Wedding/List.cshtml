@@ -1,3 +1,6 @@
+@model weddingPlanner.Models.Dashboard
+@using weddingPlanner.Models;
+
 <h1>Welcome to the Wedding Planner</h1>
 
 <table>
@@ -5,19 +8,28 @@
         <th>Wedding</th>
         <th>Date</th>
         <th>Guests</th>
+        <th>RSVP?</th>
     </tr>
-    @foreach(var wedding in ViewBag.weddings)
+    @foreach(var wedding in Model.Weddings)
     {
         <tr>
             <td>
                 <a asp-controller="Wedding" asp-action="detail">
-                    @wedding.newleywedOne & @wedding.newlywedTwo
+                    @wedding.newlywedOne & @wedding.newlywedTwo
                 </a>
             </td>
             <td>@wedding.date.ToString("d")</td>
             <td>@wedding.guests.Count</td>
+            @if(wedding.guests.Where(item => item.usersId == Model.User.usersId).SingleOrDefault() == null)
+            {
+                <td><a asp-controller="Wedding" asp-action="Rsvp">RSVP</a></td>
+            }
+            else
+            {
+                <td><a asp-controller="Wedding" asp-action="UnRsvp">Un-RSVP</a></td>
+            }
         </tr>
     }
 </table>
 
-<a asp-area="" asp-controller="Wedding" asp-action="add">Home</a>
+<a asp-area="" asp-controller="Wedding" asp-action="add">Add a Wedding</a>

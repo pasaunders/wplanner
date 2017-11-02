@@ -1,0 +1,9 @@
+<h1>@viewBag.thisWedding.newlywedOne and @(ViewBag.thisWedding.newlywedTwo)'s Wedding</h1>
+<h2>Date: @(ViewBag.thisWedding.date.ToLongDateString())</h2>
+<p>Guests</p>
+<ul>
+    @foreach(var guest in ViewBag.thisWedding.guests)
+    {
+        <li>@(guest.user.firstName) @(guest.user.lastName)</li>
+    }
+</ul>
