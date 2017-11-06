@@ -14,7 +14,7 @@
     {
         <tr>
             <td>
-                <a asp-controller="Wedding" asp-action="detail">
+                <a asp-controller="Wedding" asp-action="detail" asp-route-wedding="@wedding.weddingsId">
                     @wedding.newlywedOne & @wedding.newlywedTwo
                 </a>
             </td>
@@ -22,11 +22,11 @@
             <td>@wedding.guests.Count</td>
             @if(wedding.guests.Where(item => item.usersId == Model.User.usersId).SingleOrDefault() == null)
             {
-                <td><a asp-controller="Wedding" asp-action="Rsvp">RSVP</a></td>
+                <td><a asp-controller="Wedding" asp-action="rsvp" asp-route-wedding="@wedding.weddingsId">RSVP</a></td>
             }
             else
             {
-                <td><a asp-controller="Wedding" asp-action="UnRsvp">Un-RSVP</a></td>
+                <td><a asp-controller="Wedding" asp-action="unrsvp" asp-route-wedding="@wedding.weddingsId">Un-RSVP</a></td>
             }
         </tr>
     }

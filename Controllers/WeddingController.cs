@@ -65,12 +65,53 @@ namespace weddingPlanner.Controllers
                 .Include(lambdaWedding => lambdaWedding.guests)
                 .ThenInclude(guest => guest.user)
                 .ToList();
-            Weddings chosenWedding = allWeddings.FirstOrDefault(thisWedding => thisWedding.weddingsId == wedding);
+            Weddings chosenWedding = allWeddings.FirstOrDefault(
+                thisWedding => thisWedding.weddingsId == wedding
+                );
             if (chosenWedding != null)
             {
                 ViewBag.thisWedding = chosenWedding;
                 return View();
             }
+            return RedirectToAction("list");
+        }
+        [HttpGet]
+        [Route("rsvp/{wedding}")]
+        public IActionResult Rsvp(int wedding)
+        {
+            Users currentUser = _context.users.FirstOrDefault(
+                user => user.usersId == HttpContext.Session.GetInt32("currentUserId")
+                );
+            Weddings currentWedding = _context.weddings.FirstOrDefault(item => item.weddingsId == wedding);
+            Attending newAttend = new Attending();
+            newAttend.usersId = currentUser.usersId;
+            newAttend.weddingsId = wedding;
+            _context.attending.Add(newAttend);
+            _context.SaveChanges();
+            currentUser.attending.Add(newAttend);
+            currentWedding.guests.Add(newAttend);
+            _context.SaveChanges();
+            return RedirectToAction("list");
+        }
+        [HttpGet]
+        [Route("unrsvp/{wedding}")]
+        public IActionResult UnRsvp(int wedding)
+        {
+            Weddings thisWedding = _context.weddings.FirstOrDefault(
+                item => item.weddingsId == wedding
+                );
+            Users thisUser = _context.users.FirstOrDefault(
+                user => user.usersId == HttpContext.Session.GetInt32("currentUserId")
+                    );
+            Attending thisAttend = _context.attending
+                .SingleOrDefault(
+                    item => item.weddingsId == thisWedding.weddingsId 
+                    && item.usersId == thisUser.usersId
+                    );
+            _context.attending.Remove(thisAttend);
+            thisWedding.guests.Remove(thisAttend);
+            thisUser.attending.Remove(thisAttend);
+            _context.SaveChanges();
             return RedirectToAction("list");
         }
     }
